@@ -8,7 +8,6 @@ const handleValidatorError = (error) => {
 
 const handleDuplicateDB = (error) => {
   const value = error.errorResponse.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-
   const message = `Duplicate field value: ${value} .Please use another value!`;
   return new AppError(message, 400);
 };

@@ -21,4 +21,12 @@ router
     userController.getAllUser
   );
 
+router.patch('/update-me', authController.protect, userController.updateMe);
+router.get(
+  '/get-me',
+  authController.protect,
+  userController.getMe,
+  userController.getUser
+);
+
 module.exports = router;
