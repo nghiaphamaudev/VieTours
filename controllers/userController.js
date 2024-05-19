@@ -1,13 +1,11 @@
 const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
 const User = require('./../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+const sendResponse = require('../utils/sendResponse');
 
 exports.getAllUser = catchAsync(async (req, res, next) => {
   const users = await User.find();
-  res.status(200).json({
-    status: 'success',
-    data: users,
-  });
+  sendResponse(res, 200, users);
 });
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
@@ -15,15 +13,12 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('The ID user not existed', 400));
   }
-  res.status(204).json({});
+  sendResponse(res, 204);
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findOneAndUpdate(req.user.id, { active: false });
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+  sendResponse(res, 204);
 });
 
 const filterUpdateFields = (objectBody, ...allowFields) => {
@@ -40,12 +35,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-  res.status(200).json({
-    status: 'success',
-    data: {
-      user: update,
-    },
-  });
+  sendResponse(res, 200, update);
 });
 
 exports.getMe = (req, res, next) => {
@@ -55,10 +45,5 @@ exports.getMe = (req, res, next) => {
 
 exports.getUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
-  res.status(200).json({
-    status: 'success',
-    data: {
-      user: user,
-    },
-  });
+  sendResponse(res, 200, user);
 });

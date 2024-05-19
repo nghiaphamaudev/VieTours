@@ -1,32 +1,29 @@
 const express = require('express');
 const authController = require('./../controllers/authController');
 const userController = require('./../controllers/userController');
-const router = express.Router();
+const userRouter = express.Router();
 
-router.post('/signup', authController.signup);
-router.post('/login', authController.login);
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword);
-router.patch(
-  '/updatePassword',
-  authController.protect,
-  authController.updatePassword
-);
+userRouter.post('/signup', authController.signup);
+userRouter.post('/login', authController.login);
+userRouter.post('/forgotPassword', authController.forgotPassword);
+userRouter.patch('/resetPassword/:token', authController.resetPassword);
 
-router
+userRouter.use(authController.protect);
+
+userRouter.patch('/updatePassword', authController.updatePassword);
+
+userRouter
   .route('/')
-  .get(
-    authController.protect,
-    authController.restrictTo('admin'),
-    userController.getAllUser
-  );
+  .get(authController.restrictTo('admin'), userController.getAllUser);
 
-router.patch('/update-me', authController.protect, userController.updateMe);
-router.get(
-  '/get-me',
-  authController.protect,
-  userController.getMe,
-  userController.getUser
+userRouter.patch('/update-me', authController.protect, userController.updateMe);
+userRouter.get('/get-me', userController.getMe, userController.getUser);
+
+// for admin
+userRouter.patch(
+  '/:id',
+  authController.restrictTo('admin'),
+  userController.updateMe
 );
 
-module.exports = router;
+module.exports = userRouter;
