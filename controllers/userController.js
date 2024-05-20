@@ -2,19 +2,11 @@ const AppError = require('../utils/appError');
 const User = require('./../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const sendResponse = require('../utils/sendResponse');
+const handleFactory = require('./handleFactory');
 
-exports.getAllUser = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-  sendResponse(res, 200, users);
-});
+exports.getAllUser = handleFactory.getAll(User);
 
-exports.deleteUser = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndDelete(req.params.id);
-  if (!user) {
-    return next(new AppError('The ID user not existed', 400));
-  }
-  sendResponse(res, 204);
-});
+exports.deleteUser = handleFactory.deleteOne(User);
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findOneAndUpdate(req.user.id, { active: false });
@@ -43,7 +35,4 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
-exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-  sendResponse(res, 200, user);
-});
+exports.getUser = handleFactory.getOne(User);

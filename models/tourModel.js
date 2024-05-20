@@ -28,6 +28,7 @@ const tourSchema = mongoose.Schema(
     ratingsAverage: {
       type: Number,
       default: 4.5,
+      //set:: Đây là một hàm setter trong Mongoose. Setter được sử dụng để thay đổi giá trị của một thuộc tính trước khi giá trị đó được lưu vào cơ sở dữ liệu.
       set: (val) => Math.round(val * 10) / 10,
     },
     ratingsQuantity: {

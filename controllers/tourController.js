@@ -1,38 +1,12 @@
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
-const sendResponse = require('../utils/sendResponse');
 const Tour = require('./../models/tourModel');
+const handleFactory = require('./handleFactory');
 
-exports.getAllTour = catchAsync(async (req, res, next) => {
-  const tours = await Tour.find().select('-createdAt -__v');
-  sendResponse(res, 200, tours);
-});
+exports.getAllTour = handleFactory.getAll(Tour);
 
-exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id);
-  sendResponse(res, 200, tour);
-});
+exports.getTour = handleFactory.getOne(Tour);
 
-exports.createTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.create(req.body);
-  sendResponse(res, 201, tour);
-});
+exports.createTour = handleFactory.createOne(Tour);
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
-  if (!tour) {
-    return next(new AppError('The tour not existed. Try again!!', 404));
-  }
-  sendResponse(res, 204);
-});
+exports.deleteTour = handleFactory.deleteOne(Tour);
 
-exports.updateTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (!tour) {
-    return next(new AppError('The tour not existed. Try again!!', 404));
-  }
-  sendResponse(res, 200, tour);
-});
+exports.updateTour = handleFactory.updateOne(Tour);
