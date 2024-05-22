@@ -10,6 +10,9 @@ const globalHandleError = require('./controllers/errorController');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(
@@ -19,6 +22,10 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+
+app.use('/', (req, res, next) => {
+  res.status(200).render('register');
+});
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tours', tourRouter);
