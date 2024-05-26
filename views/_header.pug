@@ -20,10 +20,15 @@ nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-nav
                     a.nav-link(href='blog.html') Blog
                 li.nav-item
                     a.nav-link(href='contact.html') Contact
-                li.nav-item
-                    a.nav-link(href='contact.html')
-                        //- i.fa-solid.fa-user
-                        img.rounded-circle(src='https://mdbcdn.b-cdn.net/img/new/avatars/2.webp' style='width: 32px;' alt='Avatar')
-                        span.ml-2 David Shedmant
+                if user 
+                    li.nav-item
+                        a.nav-link(href='/about-me')
+                            img.rounded-circle(src=`/images/users/${user.photo}` style='width: 32px;' alt='Avatar')
+                            span.ml-2= `Hello, ${user.fullName.split(' ').splice(1,2).join(' ')}`
+                else
+                    li.nav-item
+                        a.nav-link(href='/login')
+                            i.fa-solid.fa-user
+                        
 
 

@@ -13,6 +13,16 @@ const signToken = (id) => {
 
 const createSendRes = (user, statusCode, res) => {
   const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: true,
+  };
+
+  res.cookie('jwt', token, cookieOptions);
+
   res.status(statusCode).json({
     status: 'success',
     data: user,
@@ -34,30 +44,64 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendRes(user, 200, res);
 });
 
+exports.checkLogin = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email: email }).select('+password');
+  if (!user || !(await user.checkPassword(password, user.password))) {
+    return next(new AppError('Email or password not correct!', 401));
+  }
+  createSendRes(user, 200, res);
+});
+
 exports.protect = catchAsync(async (req, res, next) => {
+  let token;
   if (
-    !req.headers.authorization ||
-    !req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization ||
+    req.headers.authorization.startsWith('Bearer')
   ) {
+    token = req.headers.authorization.split(' ')[1];
+  } else {
+    token = req.cookies.jwt;
+  }
+  if (!token) {
     return next(
       new AppError('You not logged in. Please login to access!', 401)
     );
   }
-  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const user = await User.findOne({ _id: decoded.id });
-  if (!user) {
+  const currentUser = await User.findOne({ _id: decoded.id });
+  if (!currentUser) {
     return next(
       new AppError(' The token has not beloging to this user. Try again!', 403)
     );
   }
 
-  if (user.passwordChangedAfter(decoded.iat)) {
+  if (currentUser.passwordChangedAfter(decoded.iat)) {
     return next(
       new AppError('The password has been changed. Please try again', 401)
     );
   }
-  req.user = user;
+  req.user = currentUser;
+  next();
+});
+
+exports.checkLoggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next();
+    }
+
+    if (currentUser.passwordChangedAfter(decoded.iat)) {
+      return next();
+    }
+    res.locals.user = currentUser;
+    return next();
+  }
   next();
 });
 
