@@ -18,9 +18,10 @@ html
             link(rel='stylesheet' href='/css/jquery.timepicker.css')
             link(rel='stylesheet' href='/css/flaticon.css')
             link(rel='stylesheet' href='/css/style.css')
+            link(rel='stylesheet' href='/css/alert.css')
             style.
                 .py-8 {
-                    padding-top: 8rem !important;
+                    padding-top: 9rem !important;
                     padding-bottom: 8rem !important;
                 }
                 .text-black {
@@ -39,7 +40,7 @@ html
                     ul.navbar-nav.ml-auto.text
                         li.nav-item
                             a.nav-link.text-black(href='about') Home
-                        li.nav-item.active
+                        li.nav-item
                             a.nav-link.text-black(href='/about') About
                         li.nav-item
                             a.nav-link.text-black(href='destination.html') Destination
@@ -49,11 +50,12 @@ html
                             a.nav-link.text-black(href='blog.html') Blog
                         li.nav-item
                             a.nav-link.text-black(href='contact.html') Contact
-                        li.nav-item
+                        li.nav-item.active
                             a.nav-link.text-black(href='/login') 
                                 i.fa-solid.fa-user
                                 //- img.rounded-circle(src='https://mdbcdn.b-cdn.net/img/new/avatars/2.webp' style='width: 32px;' alt='Avatar')
                                 //- span.ml-2 David Shedmant
+        #toast_custom
         section.h-100.h-custom(style='background-color: #8fc4b7;')
             .container.py-8.h-100
                 .row.d-flex.justify-content-center.align-items-center.h-100
@@ -71,7 +73,7 @@ html
                                         input#email.form-control(type='email')
                                     .form-outline.mb-4(data-mdb-input-init='')
                                         label.form-label(for='form3Example4q') Password
-                                        input#pasword.form-control(type='password')
+                                        input#password.form-control(type='password')
                                     .form-outline.mb-4(data-mdb-input-init='')
                                         label.form-label(for='form3Example5q') Password Confirm
                                         input#passwordConfirm.form-control(type='password')

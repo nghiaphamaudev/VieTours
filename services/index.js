@@ -1,43 +1,4 @@
-const login = async (email, password) => {
-  try {
-    const res = await axios({
-      method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/users/login',
-      data: {
-        email,
-        password,
-      },
-    });
-    if (res.data.status === 'success') {
-      window.setTimeout(() => {
-        location.assign('/about');
-      }, 1500);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const signup = async (fullName, email, password, passwordConfirm) => {
-  try {
-    console.log(fullName, email, password, passwordConfirm);
-    const res = await axios({
-      method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/users/signup',
-      data: {
-        fullName,
-        email,
-        password,
-        passwordConfirm,
-      },
-    });
-    if (res.data.status === ' success') {
-      console.log(res.data);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { login, signup } from './authService.js';
 
 const loginForm = document.querySelector('.form--login');
 const signupForm = document.querySelector('.form--signup');
@@ -53,6 +14,7 @@ if (loginForm) {
   });
 }
 
+//Process signUp
 if (signupForm) {
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();

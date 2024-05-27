@@ -39,7 +39,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email }).select('+password');
   if (!user || !(await user.checkPassword(password, user.password))) {
-    return next(new AppError('Email or password not correct!', 401));
+    return next(new AppError('Email hoặc mật khẩu không chính xác!', 401));
   }
   createSendRes(user, 200, res);
 });
@@ -48,7 +48,7 @@ exports.checkLogin = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email }).select('+password');
   if (!user || !(await user.checkPassword(password, user.password))) {
-    return next(new AppError('Email or password not correct!', 401));
+    return next(new AppError('Email hoặc mật khẩu không chính xác!', 401));
   }
   createSendRes(user, 200, res);
 });
