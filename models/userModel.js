@@ -8,11 +8,11 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please provide your email !'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email'],
+    validate: [validator.isEmail, 'Vui lòng cung cấp email hợp lệ!'],
   },
   fullName: {
     type: String,
-    required: [true, 'Please provide your full name'],
+    required: [true, 'Vui lòng cung cấp tên của bạn!'],
   },
   photo: {
     type: String,
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 8,
+    minlength: [8, 'Mật khẩu tối thiểu 8 kí tự'],
     select: false,
     required: [true, 'Please provide your password'],
   },
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
       validator: function (el) {
         return this.password === el;
       },
-      message: 'The password confirm not same password. Try again!',
+      message: 'Mật khẩu xác nhận không trùng khớp với mật khẩu đã nhập!',
     },
   },
   passwordChangedAt: Date,
@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
-  this.passwordConfirm = undefined;
+  this.passwordConfirm = undefined; 
   next();
 });
 

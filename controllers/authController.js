@@ -22,7 +22,7 @@ const createSendRes = (user, statusCode, res) => {
   };
 
   res.cookie('jwt', token, cookieOptions);
-
+  user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
     data: user,
@@ -44,23 +44,14 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendRes(user, 200, res);
 });
 
-exports.checkLogin = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email: email }).select('+password');
-  if (!user || !(await user.checkPassword(password, user.password))) {
-    return next(new AppError('Email hoặc mật khẩu không chính xác!', 401));
-  }
-  createSendRes(user, 200, res);
-});
-
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   if (
-    req.headers.authorization ||
+    req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
-  } else {
+  } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
   if (!token) {
@@ -87,20 +78,24 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.checkLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
-    const decoded = await promisify(jwt.verify)(
-      req.cookies.jwt,
-      process.env.JWT_SECRET
-    );
-    const currentUser = await User.findById(decoded.id);
-    if (!currentUser) {
-      return next();
-    }
+    try {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        next();
+      }
 
-    if (currentUser.passwordChangedAfter(decoded.iat)) {
+      if (currentUser.passwordChangedAfter(decoded.iat)) {
+        next();
+      }
+      res.locals.user = currentUser;
+      return next();
+    } catch (error) {
       return next();
     }
-    res.locals.user = currentUser;
-    return next();
   }
   next();
 });

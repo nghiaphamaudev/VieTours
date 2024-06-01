@@ -1,0 +1,23 @@
+extends base
+
+block banner 
+    include _bannerHome
+block box_search
+    include _boxSearch
+block content_1 
+    include _introduce_1
+block content_2 
+    include _destination
+block content_3 
+    include _overviewTour
+block content_4 
+    section.ftco-section.ftco-about.img(style='background-image: url(images/bg_4.jpg);')
+        .overlay
+        .container.py-md-5
+            .row.py-md-5
+                .col-md.d-flex.align-items-center.justify-content-center
+                    a.icon-video.popup-vimeo.d-flex.align-items-center.justify-content-center.mb-4(href='https://vimeo.com/45830194')
+                        span.fa.fa-play
+    include _introduce_2
+block content_5 
+    include _askFor

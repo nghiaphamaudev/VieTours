@@ -7,12 +7,19 @@ const handleValidatorError = (error) => {
 };
 
 const handleDuplicateDB = (error) => {
-  const value = error.errorResponse.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  const message = `Duplicate field value: ${value} .Please use another value!`;
+  // const value = error.errorResponse.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  const valueDuplicate = error.errorResponse.keyValue;
+  let values = Object.getOwnPropertyNames(valueDuplicate);
+  values = values.map((value) =>
+    value.replace(value[0], value[0].toUpperCase())
+  );
+  values = values.join(' ');
+  const message = `${values} đã tồn tại .Vui lòng thử lại!`;
   return new AppError(message, 400);
 };
 
 const sendErrorDev = (err, req, res) => {
+
   return res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -21,16 +28,20 @@ const sendErrorDev = (err, req, res) => {
   });
 };
 const sendErrorProd = (err, req, res) => {
+  if (res.headersSent) {
+    return;
+  }
   if (err.isOperational) {
-    return res.status(err.statusCode).json({
+    res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
     });
+  } else {
+    res.status(500).json({
+      status: 'error',
+      message: 'Something went wrong!!',
+    });
   }
-  return res.status(500).json({
-    status: 'error',
-    message: 'Something went wrong!!',
-  });
 };
 
 module.exports = (err, req, res, next) => {

@@ -17,14 +17,12 @@ const login = async (email, password) => {
       }, 1500);
     }
   } catch (error) {
-    console.log(error);
-    showAlert(error.response.data.error.status, error.response.data.message);
+    showAlert(error.response.data.status, error.response.data.message);
   }
 };
 
 const signup = async (fullName, email, password, passwordConfirm) => {
   try {
-    console.log(fullName, email, password, passwordConfirm);
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:8000/api/v1/users/signup',
@@ -35,12 +33,11 @@ const signup = async (fullName, email, password, passwordConfirm) => {
         passwordConfirm,
       },
     });
-    if (res.data.status === ' success') {
+    if (res.data.status === 'success') {
       showAlert(res.data.status, 'Đăng kí thành công !');
     }
   } catch (error) {
-    console.log(error);
-    showAlert(error.response.data.error.status, error.response.data.message);
+    showAlert(error.response.data.status, error.response.data.message);
   }
 };
 

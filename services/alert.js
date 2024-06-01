@@ -46,20 +46,3 @@ export const showAlert = (title, message, duration = 3000) => {
     main.appendChild(toast);
   }
 };
-function showSuccessToast() {
-  toast({
-    title: 'Thành công!',
-    message: 'Bạn đã đăng ký thành công tài khoản tại F8.',
-    type: 'success',
-    duration: 10000,
-  });
-}
-
-function showErrorToast() {
-  toast({
-    title: 'Thất bại!',
-    message: 'Có lỗi xảy ra, vui lòng liên hệ quản trị viên.',
-    type: 'error',
-    duration: 5000,
-  });
-}

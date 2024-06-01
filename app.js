@@ -33,7 +33,7 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/hotels', hotelRouter);
 
 app.all('*', (req, res, next) => {
-  next(
+  return next(
     new AppError(
       ` Can't find  ${req.originalUrl} not on this server. Try again!`,
       404
