@@ -13,7 +13,17 @@ const globalHandleError = require('./controllers/errorController');
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', [
+  path.join(__dirname, 'views'),
+  path.join(__dirname, 'views', 'admin'),
+  path.join(__dirname, 'views', 'admin', 'blocks'),
+  path.join(__dirname, 'views', 'admin', 'layouts'),
+  path.join(__dirname, 'views', 'admin', 'pages'),
+  path.join(__dirname, 'views', 'public'),
+  path.join(__dirname, 'views', 'public', 'blocks'),
+  path.join(__dirname, 'views', 'public', 'layouts'),
+  path.join(__dirname, 'views', 'public', 'pages'),
+]);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'services')));

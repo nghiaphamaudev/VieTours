@@ -1,0 +1,112 @@
+section.ftco-section.ftco-no-pb.ftco-no-pt
+    .container
+        .row
+            .col-md-12
+                .ftco-search.d-flex.justify-content-center
+                    .row
+                        .col-md-12.nav-link-wrap
+                            #v-pills-tab.nav.nav-pills.text-center(role='tablist' aria-orientation='vertical')
+                                a#v-pills-1-tab.nav-link.active.mr-md-1(data-toggle='pill' href='#v-pills-1' role='tab' aria-controls='v-pills-1' aria-selected='true') Search Tour
+                                a#v-pills-2-tab.nav-link(data-toggle='pill' href='#v-pills-2' role='tab' aria-controls='v-pills-2' aria-selected='false') Hotel
+                        .col-md-12.tab-wrap
+                            #v-pills-tabContent.tab-content
+                                #v-pills-1.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='v-pills-nextgen-tab')
+                                    form.search-property-1(action='#')
+                                        .row.no-gutters
+                                            .col-md.d-flex
+                                                .form-group.p-4.border-0
+                                                    label(for='#') Destination
+                                                    .form-field
+                                                        .icon
+                                                            span.fa.fa-search
+                                                        input.form-control(type='text' placeholder='Search place')
+                                            .col-md.d-flex
+                                                .form-group.p-4
+                                                    label(for='#') Check-in date
+                                                    .form-field
+                                                        .icon
+                                                            span.fa.fa-calendar
+                                                        input.form-control.checkin_date(type='text' placeholder='Check In Date')
+                                            .col-md.d-flex
+                                                .form-group.p-4
+                                                    label(for='#') Check-out date
+                                                    .form-field
+                                                        .icon
+                                                            span.fa.fa-calendar
+                                                        input.form-control.checkout_date(type='text' placeholder='Check Out Date')
+                                            .col-md.d-flex
+                                                .form-group.p-4
+                                                    label(for='#') Price Limit
+                                                    .form-field
+                                                        .select-wrap
+                                                            .icon
+                                                                span.fa.fa-chevron-down
+                                                            select.form-control(name='' id='')
+                                                                option(value='') $100
+                                                                option(value='') $10,000
+                                                                option(value='') $50,000
+                                                                option(value='') $100,000
+                                                                option(value='') $200,000
+                                                                option(value='') $300,000
+                                                                option(value='') $400,000
+                                                                option(value='') $500,000
+                                                                option(value='') $600,000
+                                                                option(value='') $700,000
+                                                                option(value='') $800,000
+                                                                option(value='') $900,000
+                                                                option(value='') $1,000,000
+                                                                option(value='') $2,000,000
+                                            .col-md.d-flex
+                                                .form-group.d-flex.w-100.border-0
+                                                    .form-field.w-100.align-items-center.d-flex
+                                                        input.align-self-stretch.form-control.btn.btn-primary(type='submit' value='Search')
+                                #v-pills-2.tab-pane.fade(role='tabpanel' aria-labelledby='v-pills-performance-tab')
+                                    form.search-property-1(action='#')
+                                        .row.no-gutters
+                                            .col-lg.d-flex
+                                                .form-group.p-4.border-0
+                                                    label(for='#') Destination
+                                                    .form-field
+                                                        .icon
+                                                            span.fa.fa-search
+                                                        input.form-control(type='text' placeholder='Search place')
+                                            .col-lg.d-flex
+                                                .form-group.p-4
+                                                    label(for='#') Check-in date
+                                                    .form-field
+                                                        .icon
+                                                            span.fa.fa-calendar
+                                                        input.form-control.checkin_date(type='text' placeholder='Check In Date')
+                                            .col-lg.d-flex
+                                                .form-group.p-4
+                                                    label(for='#') Check-out date
+                                                    .form-field
+                                                        .icon
+                                                            span.fa.fa-calendar
+                                                        input.form-control.checkout_date(type='text' placeholder='Check Out Date')
+                                            .col-lg.d-flex
+                                                .form-group.p-4
+                                                    label(for='#') Price Limit
+                                                    .form-field
+                                                        .select-wrap
+                                                            .icon
+                                                                span.fa.fa-chevron-down
+                                                            select.form-control(name='' id='')
+                                                                option(value='') $100
+                                                                option(value='') $10,000
+                                                                option(value='') $50,000
+                                                                option(value='') $100,000
+                                                                option(value='') $200,000
+                                                                option(value='') $300,000
+                                                                option(value='') $400,000
+                                                                option(value='') $500,000
+                                                                option(value='') $600,000
+                                                                option(value='') $700,000
+                                                                option(value='') $800,000
+                                                                option(value='') $900,000
+                                                                option(value='') $1,000,000
+                                                                option(value='') $2,000,000
+                                            .col-lg.d-flex
+                                                .form-group.d-flex.w-100.border-0
+                                                    .form-field.w-100.align-items-center.d-flex
+                                                        input.align-self-stretch.form-control.btn.btn-primary.p-0(type='submit' value='Search')
